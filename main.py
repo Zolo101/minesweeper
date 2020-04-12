@@ -9,6 +9,8 @@ import sys
 
 sys.setrecursionlimit(10**6)
 
+# MENU = True
+
 WIDTH = 16 # 10x10,16x16,30x16
 HEIGHT = 16
 FONT_IMG = "fonts/consolas48x48_gs_tc.png"
@@ -124,7 +126,7 @@ def PrintMine(console,o): # Orginx/y
         char = "#"
     if plrloc.flagged == True and plrloc.hidden == True:
         char = "F"
-    elif plrloc.mine == True:
+    elif plrloc.mine == True and plrloc.hidden == False:
         char = "+"
 
     console.print(o.x+PLAYER_LOCATION.x,o.y+PLAYER_LOCATION.y,char,bg=(181,101,94))
@@ -186,7 +188,6 @@ def OpenZeroTiles(coords):
     OpenZeroTiles(Point(coords.x-1,coords.y+1))
     OpenZeroTiles(Point(coords.x,coords.y+1))
     OpenZeroTiles(Point(coords.x+1,coords.y+1))
-
 
 def HintOpen(coords):
     hint = field[coords.x][coords.y].nearbyMines
@@ -252,7 +253,6 @@ def HintFlag(coords):
             hidden[h].flagged = True
             FLAGS_REM -= 1
 
-
 def OpenNearbyTiles(coords):
     for a in range(coords.x-2,coords.x+2):
         for b in range(coords.y-2,coords.y+2):
@@ -317,7 +317,6 @@ def MovePL(coords):
         return 
 
     PLAYER_LOCATION = coords
-
 
 class State(tcod.event.EventDispatch):
     def ev_mousemotion(self, event):
